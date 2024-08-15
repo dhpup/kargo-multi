@@ -130,11 +130,11 @@ spec:
         - image: ghcr.io/dhpup/guestbook
           path: multi/dev/worker
     argoCDAppUpdates:
-    - appName: multi-dev-api
+    - appName: multi-api
       appNamespace: argocd
-    - appName: multi-dev-frontend
+    - appName: multi-frontend
       appNamespace: argocd
-    - appName: multi-dev-gateway
+    - appName: multi-gateway
       appNamespace: argocd
-    - appName: multi-dev-worker
+    - appName: multi-worker
       appNamespace: argocd
