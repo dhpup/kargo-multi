@@ -88,11 +88,11 @@ spec:
       name: multi-api
     sources:
       direct: true
-  - origin:
-      kind: Warehouse
-      name: multi-frontend
-    sources:
-      direct: true
+  # - origin:
+  #     kind: Warehouse
+  #     name: multi-frontend
+  #   sources:
+  #     direct: true
   # - origin:
   #     kind: Warehouse
   #     name: multi-gateway
@@ -111,12 +111,12 @@ spec:
         images:
         - image: ghcr.io/dhpup/guestbook
           path: multi/dev/api
-    - repoURL: https://github.com/dhpup/kargo-multi.git
-      writeBranch: multi/dev/frontend
-      kustomize:
-        images:
-        - image: ghcr.io/dhpup/guestbook
-          path: multi/dev/frontend
+    # - repoURL: https://github.com/dhpup/kargo-multi.git
+    #   writeBranch: multi/dev/frontend
+    #   kustomize:
+    #     images:
+    #     - image: ghcr.io/dhpup/guestbook
+    #       path: multi/dev/frontend
     # - repoURL: https://github.com/dhpup/kargo-multi.git
     #   writeBranch: multi/dev/gateway
     #   kustomize:
@@ -132,8 +132,8 @@ spec:
     argoCDAppUpdates:
     - appName: multi-api
       appNamespace: argocd
-    - appName: multi-frontend
-      appNamespace: argocd
+    # - appName: multi-frontend
+    #   appNamespace: argocd
     # - appName: multi-gateway
     #   appNamespace: argocd
     # - appName: multi-worker
