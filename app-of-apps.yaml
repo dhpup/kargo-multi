@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kargo-multi-apps
+spec:
+  project: kargo-multi
+  syncPolicy:
+    automated: {}
+  source:
+    repoURL: https://github.com/dhpup/kargo-multi.git
+    targetRevision: main
+    path: apps
+    directory:
+      recurse: true
+  destination:
+    name: in-cluster
+    namespace: argocd

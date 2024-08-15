@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: multi
+  namespace: argocd
+spec:
+  generators:
+  - list:
+      elements:
+      - service: api
+      - service: frontend
+      - service: gateway
+      - service: worker
+  template:
+    metadata:
+      name: multi-{{service}}
+      annotations:
+        kargo.akuity.io/authorized-stage: multi:*
+    spec:
+      project: kargo-multi
+      source:
+        repoURL: https://github.com/dhpup/kargo-multi.git
+        targetRevision: multi/dev/{{service}}
+        path: multi/dev/{{service}}
+      destination:
+        name: mac2
+        namespace: multi-dev-{{service}}
+      syncPolicy:
+        syncOptions:
+        - CreateNamespace=true

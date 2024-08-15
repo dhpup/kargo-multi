@@ -1,0 +1,140 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Project
+metadata:
+  name: multi
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+# spec: 
+#   promotionPolicies:
+#   - stage: dev
+#     autoPromotionEnabled: true
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: multi-api
+  namespace: multi
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  shard: kargo-agent
+  subscriptions:
+  - git:
+      repoURL: https://github.com/dhpup/kargo-multi.git
+      branch: main
+  - image:
+      repoURL: ghcr.io/dhpup/guestbook
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: multi-frontend
+  namespace: multi
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  shard: kargo-agent
+  subscriptions:
+  - git:
+      repoURL: https://github.com/dhpup/kargo-multi.git
+      branch: main
+  - image:
+      repoURL: ghcr.io/dhpup/guestbook
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: multi-gateway
+  namespace: multi
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  shard: kargo-agent
+  subscriptions:
+  - git:
+      repoURL: https://github.com/dhpup/kargo-multi.git
+      branch: main
+  - image:
+      repoURL: ghcr.io/dhpup/guestbook
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: multi-worker
+  namespace: multi
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  shard: kargo-agent
+  subscriptions:
+  - git:
+      repoURL: https://github.com/dhpup/kargo-multi.git
+      branch: main
+  - image:
+      repoURL: ghcr.io/dhpup/guestbook
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: dev
+  namespace: multi
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  shard: kargo-agent
+  requestedFreight:
+  - origin:
+      kind: Warehouse
+      name: multi-api
+    sources:
+      direct: true
+  # - origin:
+  #     kind: Warehouse
+  #     name: multi-frontend
+  #   sources:
+  #     direct: true
+  # - origin:
+  #     kind: Warehouse
+  #     name: multi-gateway
+  #   sources:
+  #     direct: true
+  # - origin:
+  #     kind: Warehouse
+  #     name: multi-worker
+  #   sources:
+  #     direct: true
+  promotionMechanisms:
+    gitRepoUpdates:
+    - repoURL: https://github.com/dhpup/kargo-multi.git
+      writeBranch: multi/dev/api
+      kustomize:
+        images:
+        - image: ghcr.io/dhpup/guestbook
+          path: multi/dev/api
+    # - repoURL: https://github.com/dhpup/kargo-multi.git
+    #   writeBranch: multi/dev/frontend
+    #   kustomize:
+    #     images:
+    #     - image: ghcr.io/dhpup/guestbook
+    #       path: multi/dev/frontend
+    # - repoURL: https://github.com/dhpup/kargo-multi.git
+    #   writeBranch: multi/dev/gateway
+    #   kustomize:
+    #     images:
+    #     - image: ghcr.io/dhpup/guestbook
+    #       path: multi/dev/gateway
+    # - repoURL: https://github.com/dhpup/kargo-multi.git
+    #   writeBranch: multi/dev/worker
+    #   kustomize:
+    #     images:
+    #     - image: ghcr.io/dhpup/guestbook
+    #       path: multi/dev/worker
+    argoCDAppUpdates:
+    - appName: multi-api
+      appNamespace: argocd
+    # - appName: multi-frontend
+    #   appNamespace: argocd
+    # - appName: multi-gateway
+    #   appNamespace: argocd
+    # - appName: multi-worker
+    #   appNamespace: argocd
