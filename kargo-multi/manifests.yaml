@@ -93,16 +93,16 @@ spec:
       name: multi-frontend
     sources:
       direct: true
-  # - origin:
-  #     kind: Warehouse
-  #     name: multi-gateway
-  #   sources:
-  #     direct: true
-  # - origin:
-  #     kind: Warehouse
-  #     name: multi-worker
-  #   sources:
-  #     direct: true
+  - origin:
+      kind: Warehouse
+      name: multi-gateway
+    sources:
+      direct: true
+  - origin:
+      kind: Warehouse
+      name: multi-worker
+    sources:
+      direct: true
   promotionMechanisms:
     gitRepoUpdates:
     - repoURL: https://github.com/dhpup/kargo-multi.git
@@ -117,24 +117,24 @@ spec:
         images:
         - image: ghcr.io/dhpup/guestbook
           path: multi/dev/frontend
-    # - repoURL: https://github.com/dhpup/kargo-multi.git
-    #   writeBranch: multi/dev/gateway
-    #   kustomize:
-    #     images:
-    #     - image: ghcr.io/dhpup/guestbook
-    #       path: multi/dev/gateway
-    # - repoURL: https://github.com/dhpup/kargo-multi.git
-    #   writeBranch: multi/dev/worker
-    #   kustomize:
-    #     images:
-    #     - image: ghcr.io/dhpup/guestbook
-    #       path: multi/dev/worker
+    - repoURL: https://github.com/dhpup/kargo-multi.git
+      writeBranch: multi/dev/gateway
+      kustomize:
+        images:
+        - image: ghcr.io/dhpup/guestbook
+          path: multi/dev/gateway
+    - repoURL: https://github.com/dhpup/kargo-multi.git
+      writeBranch: multi/dev/worker
+      kustomize:
+        images:
+        - image: ghcr.io/dhpup/guestbook
+          path: multi/dev/worker
     argoCDAppUpdates:
     - appName: multi-api
       appNamespace: argocd
     - appName: multi-frontend
       appNamespace: argocd
-    # - appName: multi-gateway
-    #   appNamespace: argocd
-    # - appName: multi-worker
-    #   appNamespace: argocd
+    - appName: multi-gateway
+      appNamespace: argocd
+    - appName: multi-worker
+      appNamespace: argocd
