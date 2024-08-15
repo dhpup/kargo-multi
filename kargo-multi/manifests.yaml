@@ -107,7 +107,6 @@ spec:
     gitRepoUpdates:
     - repoURL: https://github.com/dhpup/kargo-multi.git
       writeBranch: multi/dev/api
-      readBranch: main
       kustomize:
         images:
         - image: ghcr.io/dhpup/guestbook
