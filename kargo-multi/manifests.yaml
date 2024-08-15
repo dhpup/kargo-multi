@@ -144,9 +144,21 @@ spec:
     argoCDAppUpdates:
     - appName: multi-api
       appNamespace: argocd
+      origin:
+        kind: Warehouse
+        name: multi-api
     - appName: multi-frontend
       appNamespace: argocd
+      origin:
+        kind: Warehouse
+        name: multi-frontend
     - appName: multi-gateway
       appNamespace: argocd
+      origin:
+        kind: Warehouse
+        name: multi-gateway
     - appName: multi-worker
       appNamespace: argocd
+      origin:
+        kind: Warehouse
+        name: multi-worker
