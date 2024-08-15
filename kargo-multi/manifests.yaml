@@ -25,54 +25,54 @@ spec:
   - image:
       repoURL: ghcr.io/dhpup/guestbook
 ---
-# apiVersion: kargo.akuity.io/v1alpha1
-# kind: Warehouse
-# metadata:
-#   name: multi-frontend
-#   namespace: multi
-#   annotations:
-#     argocd.argoproj.io/sync-wave: "2"
-# spec:
-#   shard: kargo-agent
-#   subscriptions:
-#   - git:
-#       repoURL: https://github.com/dhpup/kargo-multi.git
-#       branch: main
-#   - image:
-#       repoURL: ghcr.io/dhpup/guestbook
-# ---
-# apiVersion: kargo.akuity.io/v1alpha1
-# kind: Warehouse
-# metadata:
-#   name: multi-gateway
-#   namespace: multi
-#   annotations:
-#     argocd.argoproj.io/sync-wave: "2"
-# spec:
-#   shard: kargo-agent
-#   subscriptions:
-#   - git:
-#       repoURL: https://github.com/dhpup/kargo-multi.git
-#       branch: main
-#   - image:
-#       repoURL: ghcr.io/dhpup/guestbook
-# ---
-# apiVersion: kargo.akuity.io/v1alpha1
-# kind: Warehouse
-# metadata:
-#   name: multi-worker
-#   namespace: multi
-#   annotations:
-#     argocd.argoproj.io/sync-wave: "2"
-# spec:
-#   shard: kargo-agent
-#   subscriptions:
-#   - git:
-#       repoURL: https://github.com/dhpup/kargo-multi.git
-#       branch: main
-#   - image:
-#       repoURL: ghcr.io/dhpup/guestbook
-# ---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: multi-frontend
+  namespace: multi
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  shard: kargo-agent
+  subscriptions:
+  - git:
+      repoURL: https://github.com/dhpup/kargo-multi.git
+      branch: main
+  - image:
+      repoURL: ghcr.io/dhpup/guestbook
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: multi-gateway
+  namespace: multi
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  shard: kargo-agent
+  subscriptions:
+  - git:
+      repoURL: https://github.com/dhpup/kargo-multi.git
+      branch: main
+  - image:
+      repoURL: ghcr.io/dhpup/guestbook
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: multi-worker
+  namespace: multi
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  shard: kargo-agent
+  subscriptions:
+  - git:
+      repoURL: https://github.com/dhpup/kargo-multi.git
+      branch: main
+  - image:
+      repoURL: ghcr.io/dhpup/guestbook
+---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
@@ -88,11 +88,11 @@ spec:
       name: multi-api
     sources:
       direct: true
-  # - origin:
-  #     kind: Warehouse
-  #     name: multi-frontend
-  #   sources:
-  #     direct: true
+  - origin:
+      kind: Warehouse
+      name: multi-frontend
+    sources:
+      direct: true
   # - origin:
   #     kind: Warehouse
   #     name: multi-gateway
@@ -111,23 +111,20 @@ spec:
         images:
         - image: ghcr.io/dhpup/guestbook
           path: multi/dev/api
-    # - repoURL: https://github.com/dhpup/kargo-multi.git
-    #   writeBranch: multi/dev/frontend
-    #   readBranch: main
-    #   kustomize:
-    #     images:
-    #     - image: ghcr.io/dhpup/guestbook
-    #       path: multi/dev/frontend
+    - repoURL: https://github.com/dhpup/kargo-multi.git
+      writeBranch: multi/dev/frontend
+      kustomize:
+        images:
+        - image: ghcr.io/dhpup/guestbook
+          path: multi/dev/frontend
     # - repoURL: https://github.com/dhpup/kargo-multi.git
     #   writeBranch: multi/dev/gateway
-    #   readBranch: main
     #   kustomize:
     #     images:
     #     - image: ghcr.io/dhpup/guestbook
     #       path: multi/dev/gateway
     # - repoURL: https://github.com/dhpup/kargo-multi.git
     #   writeBranch: multi/dev/worker
-    #   readBranch: main
     #   kustomize:
     #     images:
     #     - image: ghcr.io/dhpup/guestbook
@@ -135,8 +132,8 @@ spec:
     argoCDAppUpdates:
     - appName: multi-api
       appNamespace: argocd
-    # - appName: multi-frontend
-    #   appNamespace: argocd
+    - appName: multi-frontend
+      appNamespace: argocd
     # - appName: multi-gateway
     #   appNamespace: argocd
     # - appName: multi-worker
